@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @db.VarChar(256)
+  password  String
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  Project   Project[]
+
+  @@map("users")
+}
+
+model Project {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(256)
+  user   User   @relation(references: [id], fields: [userId])
+  userId Int    @map("user_id")
+  Task   Task[]
+
+  @@map("project")
+}
+
+enum TaskStatus {
+  NEW
+  INPROGRESS
+  COMPLETED
+}
+
+model Task {
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(256)
+  description String
+  status      TaskStatus @default(NEW)
+  createdAt   DateTime?  @default(now()) @map("created_at")
+  updatedAt   DateTime?  @updatedAt @map("updated_at")
+  startTime   DateTime?  @map("start_time")
+  project     Project    @relation(references: [id], fields: [projectId])
+  projectId   Int        @map("project_id")
+
+  @@map("task")
+}

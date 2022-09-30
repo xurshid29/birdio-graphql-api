@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Project {
+  id: Int!
+  name: String!
+}
+
+type Task {
+  id: Int!
+  name: String!
+  description: String!
+  status: String!
+  startTime: String!
+  createdAt: String!
+  updatedAt: String!
+  projectId: Int!
+  project: Project!
+}
+
+type Query {
+  project(id: Int!): Project!
+  allProjects: [Project!]!
+  task(id: Int!): Task
+  allTasks: [Task!]!
+  tasksByProject(projectId: Int!): [Task!]!
+}
+
+type Mutation {
+  createProject(input: CreateProjectInput!): Project!
+  updateProject(id: Int!, input: UpdateProjectInput!): Project!
+  createTask(input: CreateTaskInput!): Task!
+  updateTask(id: Int!, input: UpdateTaskInput!): Task!
+}
+
+input CreateProjectInput {
+  name: String!
+}
+
+input UpdateProjectInput {
+  name: String
+}
+
+input CreateTaskInput {
+  name: String!
+  description: String!
+  startTime: DateTime
+  projectId: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input UpdateTaskInput {
+  name: String
+  description: String
+  startTime: DateTime
+  projectId: Int
+}
+
+type Subscription {
+  projectAdded: Project!
+  projectUpdated: Project!
+  taskAdded: Task!
+  taskUpdated: Task!
+}
