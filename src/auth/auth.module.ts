@@ -2,14 +2,11 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
-import { LocalStrategy } from "./local.strategy";
 import { PrismaModule } from "../prisma/prisma.module";
-import { AuthController } from "./auth.controller";
-import { LocalAuthGuard } from "./local-auth.guard";
 import { JwtStrategy } from "./jwt.strategy";
-import { JwtAuthGuard } from "./jwt-auth.guard";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthLoginResolver } from "./auth-login.resolver";
+import { GraphqlJwtAuthGuard } from "./graphql-jwt-auth.guard";
 
 @Module({
   imports: [
@@ -29,15 +26,7 @@ import { AuthLoginResolver } from "./auth-login.resolver";
       },
     }),
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    LocalAuthGuard,
-    JwtStrategy,
-    JwtAuthGuard,
-    AuthLoginResolver,
-  ],
-  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy, GraphqlJwtAuthGuard, AuthLoginResolver],
   exports: [JwtModule],
 })
 export class AuthModule {}
