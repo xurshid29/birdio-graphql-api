@@ -1,9 +1,10 @@
 import { Field, InputType, Int } from "@nestjs/graphql";
-import { IsOptional } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional } from "class-validator";
 
 @InputType()
 export class CreateTaskInput {
   @Field()
+  @IsNotEmpty()
   name: string;
 
   @Field()
@@ -14,5 +15,7 @@ export class CreateTaskInput {
   startTime?: Date;
 
   @Field(() => Int)
+  @IsInt()
+  @IsNotEmpty()
   projectId: number;
 }

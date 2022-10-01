@@ -8,7 +8,7 @@ import {
 } from "@nestjs/graphql";
 import { Task } from "./task.model";
 import { TaskService } from "./task.service";
-import { Inject, UseGuards } from "@nestjs/common";
+import { Inject, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { PUBSUB } from "../pubsub/pubsub.module";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { CurrentUser } from "../auth/graphql-current-user.decorator";
@@ -55,6 +55,7 @@ export class TaskResolver {
   }
 
   @Mutation(() => Task, { name: "createTask" })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async create(@Args("input") input: CreateTaskInput) {
     const task = await this.taskService.create(input);
     await this.pubsub.publish(TASK_ADDED_EVENT, { task });
@@ -62,6 +63,7 @@ export class TaskResolver {
   }
 
   @Mutation(() => Task, { name: "updateTask" })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async update(
     @Args("id", { type: () => Int }) id: number,
     @Args("input") input: UpdateTaskInput,

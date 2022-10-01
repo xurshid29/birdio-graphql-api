@@ -6,7 +6,7 @@ import {
   Mutation,
   Int,
 } from "@nestjs/graphql";
-import { Inject, UseGuards } from "@nestjs/common";
+import { Inject, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { PUBSUB } from "../pubsub/pubsub.module";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { CurrentUser } from "../auth/graphql-current-user.decorator";
@@ -49,6 +49,7 @@ export class ProjectResolver {
   }
 
   @Mutation(() => Project, { name: "createProject" })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async create(
     @Args("input") input: CreateProjectInput,
     @CurrentUser() user: User,
@@ -59,6 +60,7 @@ export class ProjectResolver {
   }
 
   @Mutation(() => Project, { name: "updateProject" })
+  @UsePipes(new ValidationPipe({ transform: true }))
   async update(
     @Args("id", { type: () => Int }) id: number,
     @Args("input") input: UpdateProjectInput,
