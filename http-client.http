@@ -5,36 +5,3 @@ Content-Type: application/json
   "username": "test1@test.te",
   "password": "test"
 }
-
-###
-GET {{host}}/profile
-Accept: application/json
-Authorization: Bearer {{token}}
-
-###
-GET {{host}}/projects
-Accept: application/json
-Authorization: Bearer {{token}}
-
-###
-GET {{host}}/projects/1
-Accept: application/json
-Authorization: Bearer {{token}}
-
-###
-POST {{host}}/projects
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "name": "Project 1"
-}
-
-###
-PATCH {{host}}/projects/1
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "name": "Project 1"
-}
