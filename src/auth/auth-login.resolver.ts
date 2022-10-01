@@ -19,8 +19,6 @@ export class AuthLoginResolver {
       throw new BadRequestException("Invalid credentials");
     }
 
-    return {
-      accessToken: (await this.authService.login(user)).access_token,
-    };
+    return this.authService.signUser(user);
   }
 }
