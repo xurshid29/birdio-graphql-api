@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthLogin {
+  access_token: String!
+}
+
 type Project {
   id: Int!
   name: String!
@@ -28,10 +32,16 @@ type Query {
 }
 
 type Mutation {
+  login(input: LoginInput!): AuthLogin!
   createProject(input: CreateProjectInput!): Project!
   updateProject(id: Int!, input: UpdateProjectInput!): Project!
   createTask(input: CreateTaskInput!): Task!
   updateTask(id: Int!, input: UpdateTaskInput!): Task!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input CreateProjectInput {
