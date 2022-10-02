@@ -16,15 +16,36 @@ export class TaskService {
     });
   }
 
-  async getAllByUser(user: User): Promise<Task[]> {
+  async scheduledTasks(
+    user: User,
+    startDate: Date,
+    endDate: Date,
+    projectId?: number,
+  ): Promise<Task[]> {
     return this.prisma.task.findMany({
       where: {
+        NOT: {
+          startDate: null,
+        },
+        AND: [
+          {
+            startDate: {
+              gte: startDate,
+            },
+          },
+          {
+            startDate: {
+              lte: endDate,
+            },
+          },
+        ],
         project: {
           userId: user.id,
+          ...(projectId != null ? { id: projectId } : {}),
         },
       },
       orderBy: {
-        startTime: "desc",
+        startDate: "desc",
       },
       include: {
         project: true,

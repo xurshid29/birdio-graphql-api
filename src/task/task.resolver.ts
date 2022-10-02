@@ -13,10 +13,10 @@ import { PUBSUB } from "../pubsub/pubsub.module";
 import { RedisPubSub } from "graphql-redis-subscriptions";
 import { CurrentUser } from "../auth/graphql-current-user.decorator";
 import { User } from "@prisma/client";
-import { TasksArgs } from "./dto/tasks.args";
 import { GraphqlJwtAuthGuard } from "../auth/graphql-jwt-auth.guard";
 import { CreateTaskInput } from "./dto/create-task.input";
 import { UpdateTaskInput } from "./dto/update-task.input";
+import { ScheduledTasksArgs } from "./dto/scheduled-tasks.args";
 
 const TASK_ADDED_EVENT = "task-added";
 const TASK_UPDATED_EVENT = "task-updated";
@@ -34,14 +34,17 @@ export class TaskResolver {
     return this.taskService.getById(id);
   }
 
-  @Query(() => [Task], { name: "allTasks" })
-  async all(@CurrentUser() user: User) {
-    return this.taskService.getAllByUser(user);
-  }
-
-  @Query(() => [Task])
-  async tasksByProject(@Args() tasksArgs: TasksArgs) {
-    return this.taskService.getAllByProject(tasksArgs.projectId);
+  @Query(() => [Task], { name: "scheduledTasks" })
+  async scheduled(
+    @CurrentUser() user: User,
+    @Args() tasksArgs: ScheduledTasksArgs,
+  ) {
+    return this.taskService.scheduledTasks(
+      user,
+      tasksArgs.startDate,
+      tasksArgs.endDate,
+      tasksArgs.projectId,
+    );
   }
 
   @Subscription(() => Task)

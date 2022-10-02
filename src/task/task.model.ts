@@ -16,14 +16,17 @@ export class Task {
   @Field()
   status: TaskStatus;
 
-  @Field()
-  startTime: string;
+  @Field({ nullable: true })
+  startDate: Date;
+
+  @Field({ nullable: true })
+  startTime: Date;
 
   @Field()
-  createdAt: string;
+  createdAt: Date;
 
   @Field()
-  updatedAt: string;
+  updatedAt: Date;
 
   @Field(() => Int)
   projectId: number;
