@@ -41,6 +41,7 @@ model Task {
   status      TaskStatus @default(NEW)
   createdAt   DateTime?  @default(now()) @map("created_at")
   updatedAt   DateTime?  @updatedAt @map("updated_at")
+  startDate   DateTime?  @map("start_date")
   startTime   DateTime?  @map("start_time")
   project     Project    @relation(references: [id], fields: [projectId])
   projectId   Int        @map("project_id")
