@@ -45,21 +45,7 @@ export class TaskService {
         },
       },
       orderBy: {
-        startDate: "desc",
-      },
-      include: {
-        project: true,
-      },
-    });
-  }
-
-  async getAllByProject(projectId: number): Promise<Task[]> {
-    return this.prisma.task.findMany({
-      where: {
-        projectId,
-      },
-      orderBy: {
-        startTime: "desc",
+        startTime: "asc",
       },
       include: {
         project: true,

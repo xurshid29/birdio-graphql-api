@@ -72,6 +72,7 @@ input UpdateProjectInput {
 input CreateTaskInput {
   name: String!
   description: String!
+  startDate: DateTime
   startTime: DateTime
   projectId: Int!
 }
@@ -79,6 +80,7 @@ input CreateTaskInput {
 input UpdateTaskInput {
   name: String
   description: String
+  startDate: DateTime
   startTime: DateTime
   projectId: Int
 }
