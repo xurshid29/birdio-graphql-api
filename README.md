@@ -15,3 +15,8 @@ DB seed:
 ```bash
 $ docker compose run --rm nest-api npx prisma db seed
 ```
+
+Open in browser (with default .env values):
+```text
+http://localhost:8088/graphql
+```
